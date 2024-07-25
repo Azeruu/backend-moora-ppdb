@@ -19,7 +19,23 @@ const JalurModel = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        len: [3, 50],
+      },
+    },
+    persentase: {
+      type: DataTypes.DECIMAL(6,2),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isDecimal: true,
+        min: 0,
+        max: 100
+      },
+    },
+    jumlah_kuota: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
     },
   },

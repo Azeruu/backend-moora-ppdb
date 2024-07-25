@@ -12,15 +12,16 @@ import AuthRoutes from "./Routes/AuthRoutes.js";
 import JalurRoute from "./Routes/JalurRoutes.js";
 import HasilRoute from "./Routes/HasilRoutes.js";
 import PingRoutes from "./Routes/PingRoutes.js";
+import QuotaRoutes from "./Routes/QuotaRoutes.js";
 import db from "./config/Database.js";
 dotenv.config();
 
 const app = express();
 
- (async () => {
-     await db.sync();
-    console.log("Sinkronisasi Database Berhasil");
- })();
+// (async () => {
+//     await db.sync();
+// console.log("Sinkronisasi Database Berhasil");
+// })();
 
 const sessionStore = SequelizeStore(session.Store); 
 
@@ -48,7 +49,7 @@ app.use(cors({
     allowedHeaders: 'Content-Type', // Mengizinkan semua header
     credentials: true, // Mengizinkan penggunaan kredensial (cookie)
     optionsSuccessStatus: 204,
-  })
+    })
 );
 
 app.use(FileUpload());
@@ -62,6 +63,7 @@ app.use(JalurRoute);
 app.use(AuthRoutes);
 app.use(UserRoute);
 app.use(PingRoutes);
+app.use(QuotaRoutes);
 
 store.sync();
 

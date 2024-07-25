@@ -6,7 +6,7 @@ import { Op } from "sequelize";
 export const getJalur = async (req, res) => {
   try {
       const response = await Jalur.findAll({
-          attributes:['id','kode_jalur','nama_jalur']
+          attributes:['id','kode_jalur','nama_jalur', 'persentase','jumlah_kuota']
       });
       res.status(200).json(response);
   } catch (error) {
@@ -16,7 +16,7 @@ export const getJalur = async (req, res) => {
 export const getJalurById = async (req, res) => {
   try {
       const response = await Jalur.findOne({
-          attributes:['id','kode_jalur','nama_jalur'],
+          attributes:['id','kode_jalur','nama_jalur', 'persentase','jumlah_kuota'],
           where:{
               id:req.params.id
           }
@@ -29,11 +29,13 @@ export const getJalurById = async (req, res) => {
 
 //CREATE Jalur
 export const createJalur = async (req, res) => {
-  const {  kode_jalur, nama_jalur } = req.body;
+  const {  kode_jalur, nama_jalur, persentase, jumlah_kuota } = req.body;
   try {
     await Jalur.create({
       kode_jalur: kode_jalur,
-      nama_jalur: nama_jalur
+      nama_jalur: nama_jalur,
+      persentase: persentase,
+      jumlah_kuota: jumlah_kuota
     });
     res.status(201).json({ msg: "Data Jalur Berhasil Diinput" });
   } catch (error) {
@@ -50,12 +52,14 @@ export const updateJalur = async (req, res) => {
       },
     });
     if (!jalur) return res.status(404).json({ msg: "Data tidak ditemukan" });
-    const { kode_jalur, nama_jalur } = req.body;
+    const { kode_jalur, nama_jalur, persentase, jumlah_kuota } = req.body;
     if (req.role === "admin") {
       await Jalur.update(
         {
           kode_jalur,
-          nama_jalur
+          nama_jalur,
+          persentase,
+          jumlah_kuota,
         },
         {
           where: {
@@ -69,7 +73,9 @@ export const updateJalur = async (req, res) => {
       await Jalur.update(
         {
           kode_jalur,
-          nama_jalur
+          nama_jalur,
+          persentase,
+          jumlah_kuota
         },
         {
           where: {

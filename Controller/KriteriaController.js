@@ -42,13 +42,17 @@ export const createKriteria = async (req, res) => {
   const {
     kode_kriteria,
     nama_kriteria,
-    bobot_kriteria
+    jalur_pendaftaran,
+    bobot_kriteria,
+    tipe_data
   } = req.body;
   try {
     const KriteriaBaru = await Kriteria.create({
       kode_kriteria:kode_kriteria,
       nama_kriteria:nama_kriteria,
-      bobot_kriteria:bobot_kriteria
+      jalur_pendaftaran:jalur_pendaftaran,
+      bobot_kriteria:bobot_kriteria,
+      tipe_data:tipe_data
     });
     res.status(201).json({ msg: "Data Kriteria Berhasil Diinput", idKriteriaBaru : KriteriaBaru.id});
   } catch (error) {
@@ -70,7 +74,9 @@ export const updateKriteria = async (req, res) => {
   const {
     kode_kriteria,
     nama_kriteria,
-    bobot_kriteria
+    jalur_pendaftaran,
+    bobot_kriteria,
+    tipe_data
   } = req.body;
   try {
     if (req.role === "admin") {
@@ -78,7 +84,9 @@ export const updateKriteria = async (req, res) => {
         {
           kode_kriteria,
           nama_kriteria,
-          bobot_kriteria
+          jalur_pendaftaran,
+          bobot_kriteria,
+          tipe_data
         },
         {
           where: {

@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import NilaiAlternatifModel from "./NilaiAlternatifModel.js";
+import JalurModel from "./JalurModel.js";
 import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
@@ -21,13 +22,30 @@ const KriteriaModel = db.define(
         notEmpty: true,
       },
     },
-    bobot_kriteria: {
-      type: DataTypes.FLOAT,
+    jalur_pendaftaran: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
+    bobot_kriteria: {
+      type: DataTypes.DECIMAL(6,2),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        min:0,
+        max:100
+      },
+    },
+    tipe_data: {
+      type: DataTypes.ENUM('benefit', 'cost'),
+      allowNull: false,
+      validate: {
+          notEmpty: true,
+      },
+  },
+  
     
   },
   {
@@ -39,4 +57,5 @@ const KriteriaModel = db.define(
 //   await db.sync({alter:true});
 // })();
 KriteriaModel.hasMany(NilaiAlternatifModel);
+JalurModel.hasMany(KriteriaModel);
 export default KriteriaModel;

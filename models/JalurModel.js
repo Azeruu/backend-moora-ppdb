@@ -22,13 +22,10 @@ const JalurModel = db.define(
       },
     },
     persentase: {
-      type: DataTypes.DECIMAL(6,2),
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
-        isDecimal: true,
-        min: 0,
-        max: 100
       },
     },
     jumlah_kuota: {

@@ -1,8 +1,9 @@
 import { Sequelize } from "sequelize";
 import Alternatif from "../models/AlternatifModel.js";
-// import Kriteria from "../models/KriteriaModel.js";
 import db from "../config/Database.js";
 import User from "./UserModel.js";
+import JalurModel from "./JalurModel.js";
+// import KriteriaModel from "./KriteriaModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -10,6 +11,13 @@ const NilaiAlternatifModel = db.define(
   "data_nilai_alternatif",
   {
     nama_alternatif: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    jalur_pendaftaran: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -54,9 +62,10 @@ const NilaiAlternatifModel = db.define(
 //   await db.sync({alter:true});
 // })();
 
-// NilaiAlternatifModel.belongsTo(Kriteria)
+// NilaiAlternatifModel.belongsTo(KriteriaModel)
 NilaiAlternatifModel.belongsTo(Alternatif)
 NilaiAlternatifModel.belongsTo(User)
+NilaiAlternatifModel.belongsTo(JalurModel)
 
 
 export default NilaiAlternatifModel;

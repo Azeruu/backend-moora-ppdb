@@ -41,21 +41,25 @@ export const getNilaiAlternatifById = async (req, res) => {
 export const createNilaiAlternatif = async (req, res) => {
   const {
     nama_alternatif,
+    jalur_pendaftaran,
     nama_kriteria,
     nilai_real,
     nilai_fuzzy,
     keterangan,
     dataAlternatifId,
+    jalurId,
     dataKriteriumId
   } = req.body;
   try {
     await NilaiAlternatif.create({
       nama_alternatif: nama_alternatif,
+      jalur_pendaftaran:jalur_pendaftaran,
       nama_kriteria: nama_kriteria,
       nilai_real: nilai_real,
       nilai_fuzzy: nilai_fuzzy,
       keterangan: keterangan,
       dataAlternatifId:dataAlternatifId,
+      jalurId:jalurId,
       userId:req.userId,
       dataKriteriumId:dataKriteriumId
     });
@@ -77,24 +81,28 @@ export const updateNilaiAlternatif = async (req, res) => {
   }
   const {
     nama_alternatif,
+    jalur_pendaftaran,
     nama_kriteria,
     nilai_real,
     nilai_fuzzy,
     keterangan,
     dataAlternatifId,
+    jalurId,
     dataKriteriumId
   } = req.body;
   try {
     await NilaiAlternatif.update(
       {
-      nama_alternatif: nama_alternatif,
-      nama_kriteria: nama_kriteria,
-      nilai_real: nilai_real,
-      nilai_fuzzy: nilai_fuzzy,
-      keterangan: keterangan,
-      dataAlternatifId:dataAlternatifId,
-      userId:req.userId,
-      dataKriteriumId:dataKriteriumId
+        nama_alternatif: nama_alternatif,
+        jalur_pendaftaran:jalur_pendaftaran,
+        nama_kriteria: nama_kriteria,
+        nilai_real: nilai_real,
+        nilai_fuzzy: nilai_fuzzy,
+        keterangan: keterangan,
+        dataAlternatifId:dataAlternatifId,
+        jalurId:jalurId,
+        userId:req.userId,
+        dataKriteriumId:dataKriteriumId
     },
     {
       where:{

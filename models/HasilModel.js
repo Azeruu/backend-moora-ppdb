@@ -23,7 +23,7 @@ const HasilModel = db.define(
         notEmpty: true,
       },
     },
-    nilai: {
+    poin: {
       type: DataTypes.FLOAT,
       allowNull: false,
       validate: {

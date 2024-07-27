@@ -135,7 +135,7 @@ export const createHasil = async (req, res) => {
         await Hasil.create({
             nama_alternatif,
             jalur_pendaftaran,
-            nilai: nilai_fuzzy,
+            poin: nilai_fuzzy,
             userId: req.userId,
             dataAlternatifId,
             jalurId
@@ -238,9 +238,9 @@ export const updateHasil = async (req, res) => {
         const { id: dataAlternatifId, nama_jalur: jalur_pendaftaran } = dataAlternatif;
         const hasil = await Hasil.findOne({ where: { dataAlternatifId } });
         if (hasil) {
-          await hasil.update({ nama_alternatif, nilai: nilai_fuzzy, jalur_pendaftaran });
+          await hasil.update({ nama_alternatif, poin: nilai_fuzzy, jalur_pendaftaran });
         } else {
-          await Hasil.create({ dataAlternatifId, nama_alternatif, nilai: nilai_fuzzy, jalur_pendaftaran });
+          await Hasil.create({ dataAlternatifId, nama_alternatif, poin: nilai_fuzzy, jalur_pendaftaran });
         }
       }
     }

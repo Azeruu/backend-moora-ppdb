@@ -18,10 +18,10 @@ dotenv.config();
 
 const app = express();
 
-// (async () => {
-//     await db.sync();
-// console.log("Sinkronisasi Database Berhasil");
-// })();
+(async () => {
+    await db.sync();
+console.log("Sinkronisasi Database Berhasil");
+})();
 
 const sessionStore = SequelizeStore(session.Store); 
 

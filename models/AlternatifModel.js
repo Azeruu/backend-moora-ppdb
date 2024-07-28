@@ -8,7 +8,7 @@ import db from "../config/Database.js";
 const { DataTypes } = Sequelize;
 
 const AlternatifModel = db.define(
-  "data_alternatif",
+  "alternatif",
   {
     kode_alternatif: {
       type: DataTypes.STRING,

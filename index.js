@@ -13,15 +13,16 @@ import JalurRoute from "./Routes/JalurRoutes.js";
 import HasilRoute from "./Routes/HasilRoutes.js";
 import PingRoutes from "./Routes/PingRoutes.js";
 import QuotaRoutes from "./Routes/QuotaRoutes.js";
+import SubKriteriaRoutes from './Routes/SubKriteriaRoutes.js';
 import db from "./config/Database.js";
 dotenv.config();
 
 const app = express();
 
-(async () => {
-    await db.sync();
-console.log("Sinkronisasi Database Berhasil");
-})();
+// (async () => {
+//     await db.sync();
+// console.log("Sinkronisasi Database Berhasil");
+// })();
 
 const sessionStore = SequelizeStore(session.Store); 
 
@@ -64,6 +65,7 @@ app.use(AuthRoutes);
 app.use(UserRoute);
 app.use(PingRoutes);
 app.use(QuotaRoutes);
+app.use(SubKriteriaRoutes);
 
 store.sync();
 

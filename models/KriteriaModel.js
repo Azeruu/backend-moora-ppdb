@@ -6,7 +6,7 @@ import db from "../config/Database.js";
 const { DataTypes } = Sequelize;
 
 const KriteriaModel = db.define(
-  "data_kriteria",
+  "kriteria",
   {
     kode_kriteria: {
       type: DataTypes.STRING,
@@ -30,7 +30,7 @@ const KriteriaModel = db.define(
       },
     },
     bobot_kriteria: {
-      type: DataTypes.DECIMAL(6,2),
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,

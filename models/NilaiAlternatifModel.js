@@ -8,7 +8,7 @@ import JalurModel from "./JalurModel.js";
 const { DataTypes } = Sequelize;
 
 const NilaiAlternatifModel = db.define(
-  "data_nilai_alternatif",
+  "nilai_alternatif",
   {
     nama_alternatif: {
       type: DataTypes.STRING,

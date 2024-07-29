@@ -9,7 +9,7 @@ import {
 import { verifyUser, adminOnly } from "../middleware/AuthUser.js";
 const router = express.Router();
 
-router.get("/kriteria", verifyUser, getKriteria);
+router.get("/kriteria", getKriteria);
 router.get("/kriteria/:id", verifyUser, getKriteriaById);
 router.post("/kriteria", verifyUser, createKriteria);
 router.patch("/kriteria/:id", verifyUser, updateKriteria);

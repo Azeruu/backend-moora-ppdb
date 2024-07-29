@@ -9,7 +9,7 @@ import {
 import {verifyUser, adminOnly} from "../middleware/AuthUser.js";
 const router = express.Router();
 
-router.get("/alternatif", verifyUser, getAlternatif);
+router.get("/alternatif", getAlternatif);
 router.get("/alternatif/:id", verifyUser,getAlternatifById);
 router.post("/alternatif", verifyUser,createAlternatif);
 router.patch("/alternatif/:id", verifyUser,updateAlternatif);

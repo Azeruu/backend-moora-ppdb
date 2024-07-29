@@ -30,9 +30,9 @@ export const getAlternatif = async (req, res) => {
           "nama_jalur"
         ],
         // Menggunakan Where agar user hanya bisa melihat data yang ia input saja
-        where: {
-          userId: req.userId,
-        },
+        // where: {
+        //   userId: req.userId,
+        // },
         include: [
           {
             model: User,

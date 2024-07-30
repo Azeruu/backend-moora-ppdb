@@ -37,7 +37,8 @@ export const getSubKriteria = async (req, res) => {
         nilai_min,
         nilai_max,
         bobot,
-        keterangan
+        keterangan,
+        kriteriumId
     } = req.body;
     try {
         const SubKriteriaBaru = await SubKriteria.create({
@@ -45,7 +46,8 @@ export const getSubKriteria = async (req, res) => {
         nilai_min:nilai_min,
         nilai_max:nilai_max,
         bobot:bobot,
-        keterangan:keterangan
+        keterangan:keterangan,
+        kriteriumId:kriteriumId
         });
         res.status(201).json({ msg: "Data SubKriteria Berhasil Diinput", idSubKriteriaBaru : SubKriteriaBaru.id});
     } catch (error) {

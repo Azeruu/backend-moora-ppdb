@@ -7,13 +7,6 @@ const { DataTypes } = Sequelize;
 const JalurModel = db.define(
   "jalur",
   {
-    kode_jalur: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
     nama_jalur: {
       type: DataTypes.STRING,
       allowNull: false,

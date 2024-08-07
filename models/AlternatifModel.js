@@ -10,13 +10,6 @@ const { DataTypes } = Sequelize;
 const AlternatifModel = db.define(
   "alternatif",
   {
-    kode_alternatif: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
     nama_alternatif: {
       type: DataTypes.STRING,
       allowNull: false,

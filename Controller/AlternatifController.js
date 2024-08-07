@@ -10,7 +10,6 @@ export const getAlternatif = async (req, res) => {
       response = await Alternatif.findAll({
         attributes: [
           "id",
-          "kode_alternatif",
           "nama_alternatif",
           "nama_jalur"
         ],
@@ -25,7 +24,6 @@ export const getAlternatif = async (req, res) => {
       response = await Alternatif.findAll({
         attributes: [
           "id",
-          "kode_alternatif",
           "nama_alternatif",
           "nama_jalur"
         ],
@@ -61,7 +59,6 @@ export const getAlternatifById = async (req, res) => {
       response = await Alternatif.findOne({
         attributes: [
           "id",
-          "kode_alternatif",
           "nama_alternatif",
           "nama_jalur"
         ],
@@ -80,7 +77,6 @@ export const getAlternatifById = async (req, res) => {
       response = await Alternatif.findOne({
         attributes: [
           "id",
-          "kode_alternatif",
           "nama_alternatif",
           "nama_jalur"
         ],
@@ -115,14 +111,12 @@ export const createAlternatif = async (req, res, next) => {
       }
     }
   const {
-    kode_alternatif,
     nama_alternatif,
     nama_jalur,
     jalurId,
   } = req.body;
   try {
     const alternatifBaru = await Alternatif.create({
-      kode_alternatif:kode_alternatif,
       nama_alternatif:nama_alternatif,
       nama_jalur:nama_jalur,
       userId:req.userId,
@@ -144,14 +138,12 @@ export const updateAlternatif = async (req, res) => {
     });
     if(!alt) return res.status(404).json({msg : 'Data tidak ditemukan'});
     const {
-        kode_alternatif,
         nama_alternatif,
         nama_jalur
     } = req.body;
     if(req.role === "admin") {
       await Alternatif.update(
         {
-        kode_alternatif,
         nama_alternatif,
         nama_jalur
         },
@@ -165,7 +157,6 @@ export const updateAlternatif = async (req, res) => {
       if(req.userId !== alt.userId) return res.status(403).json({msg : 'Anda tidak memiliki akses'});
       await Alternatif.update(
         {
-          kode_alternatif,
           nama_alternatif,
           nama_jalur
         },

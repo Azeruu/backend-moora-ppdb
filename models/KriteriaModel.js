@@ -8,13 +8,6 @@ const { DataTypes } = Sequelize;
 const KriteriaModel = db.define(
   "kriteria",
   {
-    kode_kriteria: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
     nama_kriteria: {
       type: DataTypes.STRING,
       allowNull: false,

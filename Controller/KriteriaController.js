@@ -40,7 +40,6 @@ export const getKriteriaById = async (req, res) => {
 // INput Kriteria 
 export const createKriteria = async (req, res) => {
   const {
-    kode_kriteria,
     nama_kriteria,
     jalur_pendaftaran,
     bobot_kriteria,
@@ -48,7 +47,6 @@ export const createKriteria = async (req, res) => {
   } = req.body;
   try {
     const KriteriaBaru = await Kriteria.create({
-      kode_kriteria:kode_kriteria,
       nama_kriteria:nama_kriteria,
       jalur_pendaftaran:jalur_pendaftaran,
       bobot_kriteria:bobot_kriteria,
@@ -72,7 +70,6 @@ export const updateKriteria = async (req, res) => {
     return res.status(404).json({ msg: "Data Kriteria tidak ditemukan" });
   }
   const {
-    kode_kriteria,
     nama_kriteria,
     jalur_pendaftaran,
     bobot_kriteria,
@@ -82,7 +79,6 @@ export const updateKriteria = async (req, res) => {
     if (req.role === "admin") {
       await Kriteria.update(
         {
-          kode_kriteria,
           nama_kriteria,
           jalur_pendaftaran,
           bobot_kriteria,

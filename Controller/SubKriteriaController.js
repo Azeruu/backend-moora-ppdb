@@ -1,7 +1,7 @@
 import SubKriteria from "../models/SubKriteriaModel.js";
 // import User from "../models/UserModel.js";
 // import Siswa from "../models/SiswaModel.js";
-import { Op } from "sequelize";
+// import { Op } from "sequelize";
 
 //get Nilai
 export const getSubKriteria = async (req, res) => {
@@ -34,19 +34,19 @@ export const getSubKriteria = async (req, res) => {
     export const AddSubKriteria = async (req, res) => {
     const {
         nama_kriteria,
-        nilai_min,
-        nilai_max,
+        sub_kriteria,
         bobot,
         keterangan,
+        tipe_subKriteria,
         kriteriumId
     } = req.body;
     try {
         const SubKriteriaBaru = await SubKriteria.create({
         nama_kriteria:nama_kriteria,
-        nilai_min:nilai_min,
-        nilai_max:nilai_max,
+        sub_kriteria:sub_kriteria,
         bobot:bobot,
         keterangan:keterangan,
+        tipe_subKriteria:tipe_subKriteria,
         kriteriumId:kriteriumId
         });
         res.status(201).json({ msg: "Data SubKriteria Berhasil Diinput", idSubKriteriaBaru : SubKriteriaBaru.id});
@@ -68,20 +68,20 @@ export const getSubKriteria = async (req, res) => {
     }
     const {
         nama_kriteria,
-        nilai_min,
-        nilai_max,
+        sub_kriteria,
         bobot,
-        keterangan
+        keterangan,
+        tipe_subKriteria
     } = req.body;
     try {
         if (req.role === "admin") {
         await SubKriteria.update(
             {
                 nama_kriteria,
-                nilai_min,
-                nilai_max,
+                sub_kriteria,
                 bobot,
-                keterangan
+                keterangan,
+                tipe_subKriteria
             },
             {
             where: {

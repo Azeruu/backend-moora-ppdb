@@ -15,6 +15,13 @@ const KriteriaModel = db.define(
         notEmpty: true,
       },
     },
+    tipe_kriteria: {
+      type: DataTypes.ENUM('numerik', 'string'),
+      allowNull: false,
+      validate: {
+          notEmpty: true,
+      },
+  },
     jalur_pendaftaran: {
       type: DataTypes.STRING,
       allowNull: false,

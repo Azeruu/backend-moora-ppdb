@@ -37,7 +37,6 @@ export const getSubKriteria = async (req, res) => {
         sub_kriteria,
         bobot,
         keterangan,
-        tipe_subKriteria,
         kriteriumId
     } = req.body;
     try {
@@ -46,7 +45,6 @@ export const getSubKriteria = async (req, res) => {
         sub_kriteria:sub_kriteria,
         bobot:bobot,
         keterangan:keterangan,
-        tipe_subKriteria:tipe_subKriteria,
         kriteriumId:kriteriumId
         });
         res.status(201).json({ msg: "Data SubKriteria Berhasil Diinput", idSubKriteriaBaru : SubKriteriaBaru.id});
@@ -71,7 +69,6 @@ export const getSubKriteria = async (req, res) => {
         sub_kriteria,
         bobot,
         keterangan,
-        tipe_subKriteria
     } = req.body;
     try {
         if (req.role === "admin") {
@@ -81,7 +78,6 @@ export const getSubKriteria = async (req, res) => {
                 sub_kriteria,
                 bobot,
                 keterangan,
-                tipe_subKriteria
             },
             {
             where: {

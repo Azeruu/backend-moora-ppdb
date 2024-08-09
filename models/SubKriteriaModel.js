@@ -35,13 +35,6 @@ const SubKriteriaModel = db.define(
                 notEmpty: true,
             },
         },   
-        tipe_subKriteria: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-            },
-        },   
     },
 
     {

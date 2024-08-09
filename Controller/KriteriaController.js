@@ -41,6 +41,7 @@ export const getKriteriaById = async (req, res) => {
 export const createKriteria = async (req, res) => {
   const {
     nama_kriteria,
+    tipe_kriteria,
     jalur_pendaftaran,
     bobot_kriteria,
     tipe_data
@@ -48,6 +49,7 @@ export const createKriteria = async (req, res) => {
   try {
     const KriteriaBaru = await Kriteria.create({
       nama_kriteria:nama_kriteria,
+      tipe_kriteria:tipe_kriteria,
       jalur_pendaftaran:jalur_pendaftaran,
       bobot_kriteria:bobot_kriteria,
       tipe_data:tipe_data
@@ -71,6 +73,7 @@ export const updateKriteria = async (req, res) => {
   }
   const {
     nama_kriteria,
+    tipe_kriteria,
     jalur_pendaftaran,
     bobot_kriteria,
     tipe_data
@@ -80,6 +83,7 @@ export const updateKriteria = async (req, res) => {
       await Kriteria.update(
         {
           nama_kriteria,
+          tipe_kriteria,
           jalur_pendaftaran,
           bobot_kriteria,
           tipe_data

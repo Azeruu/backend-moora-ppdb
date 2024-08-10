@@ -172,3 +172,19 @@ GET http://localhost:3001/hasil
 //POST data Hasil
 POST http://localhost:3001/hasil
 
+###
+//post 
+POST http://localhost:3001/nilai_alternatif
+Content-Type: application/json
+
+{
+    "nama_alternatif": "alif",
+    "jalur_pendaftaran": "Zonasi",
+    "nama_kriteria": "jarak",
+    "nilai_real": "678",
+    "nilai_fuzzy": "5",
+    "keterangan": "sangat baik",
+    "jalurId" : "1",
+    "dataAlternatifId": "1",
+    "kriteriumId": "1"
+}

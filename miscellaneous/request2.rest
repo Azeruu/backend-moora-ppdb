@@ -188,3 +188,48 @@ Content-Type: application/json
     "dataAlternatifId": "1",
     "kriteriumId": "1"
 }
+###
+//post 
+POST http://localhost:3001/subkriteria
+Content-Type: application/json
+
+# {
+#     "nama_kriteria": "Jarak",
+#     "sub_kriteria": "0-500 m",
+#     "tipe_sub": "range",
+#     "bobot": 5,
+#     "keterangan": "sangat baik",
+#     "kriteriumId": 1
+# }
+{
+    "nama_kriteria": "Kartu Indonesia Pintar",
+    "sub_kriteria": "kategori 1",
+    "tipe_sub": "satuan",
+    "bobot": 5,
+    "keterangan": "sangat baik",
+    "kriteriumId": 3
+}
+# {
+#     "nama_kriteria": "Jarak",
+#     "sub_kriteria": "750-1000 m",
+#     "tipe_sub": "range",
+#     "bobot": 3,
+#     "keterangan": "cukup",
+#     "kriteriumId": 1
+# }
+# {
+#     "nama_kriteria": "Jarak",
+#     "sub_kriteria": "1000-1500 m",
+#     "tipe_sub": "range",
+#     "bobot": 2,
+#     "keterangan": "kurang baik",
+#     "kriteriumId": 1
+# }
+# {
+#     "nama_kriteria": "Jarak",
+#     "sub_kriteria": "1500-2000 m",
+#     "tipe_sub": "range",
+#     "bobot": 1,
+#     "keterangan": "sangat kurang",
+#     "kriteriumId": 1
+# }

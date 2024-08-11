@@ -21,6 +21,13 @@ const SubKriteriaModel = db.define(
                 notEmpty: true,
             },
         },
+        tipe_sub: {
+            type: DataTypes.ENUM('range', 'satuan'),
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
         bobot: {
             type: DataTypes.INTEGER,
             allowNull: false,

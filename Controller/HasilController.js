@@ -17,7 +17,7 @@ export const getHasil = async (req, res) => {
         },
         {
           model: DataAlternatif,
-          attributes: ['kode_alternatif'],
+          attributes: ['id'],
         },
       ],
     });
@@ -72,88 +72,91 @@ export const createHasil = async (req, res) => {
   try {
     const nilai_alternatif = await NilaiAlternatif.findAll();
     const data_alternatif = await Alternatif.findAll();
+    const dataKriteria = await Kriteria.findAll(); // Mengambil data kriteria beserta bobot dan tipe_data dari database
 
     const groupedData = {};
     nilai_alternatif.forEach(({ nama_alternatif, nama_kriteria, nilai_fuzzy }) => {
-        groupedData[nama_kriteria] = groupedData[nama_kriteria] || [];
-        groupedData[nama_kriteria].push({ nama_alternatif, nilai_fuzzy });
+      groupedData[nama_kriteria] = groupedData[nama_kriteria] || [];
+      groupedData[nama_kriteria].push({ nama_alternatif, nilai_fuzzy });
     });
 
+    // Langkah 1: Normalisasi (pembagian dengan square root dari jumlah kuadrat setiap nilai fuzzy)
     const squareRootValues = {};
     for (const [nama_kriteria, data] of Object.entries(groupedData)) {
-        const totalSquaredValue = data.reduce((total, { nilai_fuzzy }) => total + Math.pow(nilai_fuzzy, 2), 0);
-        squareRootValues[nama_kriteria] = Math.sqrt(totalSquaredValue);
+      const totalSquaredValue = data.reduce((total, { nilai_fuzzy }) => total + Math.pow(nilai_fuzzy, 2), 0);
+      squareRootValues[nama_kriteria] = Math.sqrt(totalSquaredValue);
     }
 
-    // Nilai Fuzzy Dibagi square root 
+    // Langkah 2: Normalisasi nilai fuzzy dibagi square root
     const dividedValues = {};
     for (const [nama_kriteria, data] of Object.entries(groupedData)) {
-        const squareRootValue = squareRootValues[nama_kriteria];
-        dividedValues[nama_kriteria] = data.map(({ nama_alternatif, nilai_fuzzy }) => ({
-            nama_alternatif,
-            nilai_fuzzy: nilai_fuzzy / squareRootValue
-        }));
+      const squareRootValue = squareRootValues[nama_kriteria];
+      dividedValues[nama_kriteria] = data.map(({ nama_alternatif, nilai_fuzzy }) => ({
+        nama_alternatif,
+        nilai_fuzzy: nilai_fuzzy / squareRootValue
+      }));
     }
 
+    // Langkah 3: Mengalikan nilai yang sudah dinormalisasi dengan bobot kriteria
     const bobotKriteria = {};
-    const dataKriteria = await Kriteria.findAll();
     dataKriteria.forEach(({ nama_kriteria, bobot_kriteria }) => {
-        bobotKriteria[nama_kriteria] = bobot_kriteria;
+      bobotKriteria[nama_kriteria] = bobot_kriteria;
     });
 
-    // Perkalian dengan Bobot
     const multipliedValues = {};
     for (const [nama_kriteria, data] of Object.entries(dividedValues)) {
-        const bobot = bobotKriteria[nama_kriteria];
-        multipliedValues[nama_kriteria] = data.map(({ nama_alternatif, nilai_fuzzy }) => ({
-            nama_alternatif,
-            nilai_fuzzy: nilai_fuzzy * bobot
-        }));
+      const bobot = bobotKriteria[nama_kriteria];
+      multipliedValues[nama_kriteria] = data.map(({ nama_alternatif, nilai_fuzzy }) => ({
+        nama_alternatif,
+        nilai_fuzzy: nilai_fuzzy * bobot
+      }));
     }
 
+    // Langkah 4: Optimasi berdasarkan tipe_data (benefit atau cost)
     const summedValues = {};
     for (const [nama_kriteria, data] of Object.entries(multipliedValues)) {
-        data.forEach(({ nama_alternatif, nilai_fuzzy }) => {
-            summedValues[nama_alternatif] = 
-            (summedValues[nama_alternatif] || 0) + (nilai_fuzzy * (nama_kriteria === "Rata - Rata Nilai Rapot" || nama_kriteria === "Usia" ? 1 : -1));
-        });
+      // Mengambil tipe_data dari dataKriteria
+      const kriteriaData = dataKriteria.find(kriteria => kriteria.nama_kriteria === nama_kriteria);
+      const tipe_data = kriteriaData?.tipe_data;
+
+      data.forEach(({ nama_alternatif, nilai_fuzzy }) => {
+        const factor = tipe_data === "benefit" ? 1 : -1; // Benefit: ditambah, Cost: dikurang
+        summedValues[nama_alternatif] = (summedValues[nama_alternatif] || 0) + (nilai_fuzzy * factor);
+      });
     }
 
-    // console.log(summedValues);
-    try {
-      // Menyimpan hasil penjumlahan per alternatif ke dalam tabel Hasil
-      for (const [nama_alternatif, nilai_fuzzy] of Object.entries(summedValues)) {
-        // Cari data dalam tabel Hasil dengan nama_alternatif dan jalur_pendaftaran yang sama
-        const existingData = await Hasil.findOne({where: {nama_alternatif,}});
-        // Jika data sudah ada, lewati proses penambahan data baru
-        if (existingData) continue;
-        // Dapatkan jalur_pendaftaran dari tabel data_alternatif
-        const jalur_pendaftaran = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.nama_jalur;
-        const dataAlternatifId = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.id;
-        const jalurId = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.jalurId;
-        // Jika tidak ada data yang sama, masukkan hasil ke dalam tabel Hasil
-        await Hasil.create({
-            nama_alternatif,
-            jalur_pendaftaran,
-            poin: nilai_fuzzy,
-            userId: req.userId,
-            dataAlternatifId,
-            jalurId
-        });
-      }
-    } catch (error) {
-        console.error("Gagal menginput data hasil kedalam tabel Hasil", error);
-        // Tangani kesalahan jika penyisipan gagal
-        return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
-      }
-    // Beri respons dengan pesan sukses setelah semua catatan dimasukkan
+    // Langkah 5: Menyimpan hasil ke tabel Hasil jika belum ada
+    for (const [nama_alternatif, nilai_fuzzy] of Object.entries(summedValues)) {
+      // Cari data yang sudah ada dengan nama_alternatif dan jalur_pendaftaran yang sama
+      const existingData = await Hasil.findOne({ where: { nama_alternatif } });
+
+      // Jika data sudah ada, lewati proses penambahan data baru
+      if (existingData) continue;
+
+      // Dapatkan jalur_pendaftaran dan data lainnya dari tabel data_alternatif
+      const jalur_pendaftaran = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.nama_jalur;
+      const alternatifId = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.id;
+      const jalurId = data_alternatif.find(({ nama_alternatif: nama }) => nama === nama_alternatif)?.jalurId;
+
+      // Simpan hasil ke dalam tabel Hasil
+      await Hasil.create({
+        nama_alternatif,
+        jalur_pendaftaran,
+        poin: nilai_fuzzy,
+        userId: req.userId,
+        alternatifId,
+        jalurId
+      });
+    }
+
+    // Beri respons sukses
     res.status(201).json({ msg: "Data Hasil Berhasil Diinput atau Diperbarui" });
   } catch (error) {
     console.error("Error:", error);
-    // Tangani kesalahan jika pengambilan catatan gagal
     res.status(500).json({ msg: "Terjadi kesalahan pada server" });
   }
 };
+
 
 
 //UPDATE Hasil

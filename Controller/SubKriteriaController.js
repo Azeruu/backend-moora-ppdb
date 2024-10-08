@@ -34,6 +34,7 @@ export const getSubKriteria = async (req, res) => {
     export const AddSubKriteria = async (req, res) => {
     const {
         nama_kriteria,
+        jalur_pendaftaran,
         sub_kriteria,
         tipe_sub,
         bobot,
@@ -43,6 +44,7 @@ export const getSubKriteria = async (req, res) => {
     try {
         const SubKriteriaBaru = await SubKriteria.create({
         nama_kriteria:nama_kriteria,
+        jalur_pendaftaran:jalur_pendaftaran,
         sub_kriteria:sub_kriteria,
         tipe_sub:tipe_sub,
         bobot:bobot,
@@ -68,6 +70,7 @@ export const getSubKriteria = async (req, res) => {
     }
     const {
         nama_kriteria,
+        jalur_pendaftaran,
         sub_kriteria,
         tipe_sub,
         bobot,
@@ -78,6 +81,7 @@ export const getSubKriteria = async (req, res) => {
         await SubKriteria.update(
             {
                 nama_kriteria,
+                jalur_pendaftaran,
                 sub_kriteria,
                 tipe_sub,
                 bobot,

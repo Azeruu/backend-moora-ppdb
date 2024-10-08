@@ -14,6 +14,13 @@ const SubKriteriaModel = db.define(
                 notEmpty: true,
             },
         },
+        jalur_pendaftaran: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
         sub_kriteria: {
             type: DataTypes.STRING,
             allowNull: false,
